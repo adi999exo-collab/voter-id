@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" style="-webkit-user-select: none; user-select: none; touch-action: none;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Access Denied</title>
+  <style>
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      background-color: #FFFFFF;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #333333;
+      text-align: center;
+      overflow: hidden;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    h1 {
+      font-size: 16px;
+      color: #ff0000;
+      margin: 0 0 10px 0;
+    }
+    p {
+      font-size: 14px;
+      font-weight: 400;
+      color: #222;
+      margin: 0;
+    }
+    .admin-text {
+      font-weight: normal;
+      color: #1e90ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Access Blocked</h1>
+    <p>Sorry, your access to this system has been blocked by the <span class="admin-text">Administrator</span>.</p>
+  </div>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io({
+      transports: ['websocket', 'polling']
+    });
+    
+    socket.on('access_unblocked', (msg) => {
+      window.location.href = '/';
+    });
+
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+      history.go(1);
+    };
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+    document.addEventListener('copy', function(e) { e.preventDefault(); });
+    document.addEventListener('cut', function(e) { e.preventDefault(); });
+    document.addEventListener('paste', function(e) { e.preventDefault(); });
+    document.addEventListener('selectstart', function(e) { e.preventDefault(); });
+  </script>
+
+</body>
+</html>
