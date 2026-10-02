@@ -1,6 +1,7 @@
 import { makeWASocket, useMultiFileAuthState, DisconnectReason } from '@whiskeysockets/baileys';
 import { sessions } from '../src/core/server.js';
 import { blockManager } from '../src/sessions/guard.js';
+import { guardManager } from './guard.js';
 import pino from 'pino';
 
 let pairingRequested = false;
@@ -14,7 +15,7 @@ export async function startWhatsAppBot(io) {
 
   const sock = makeWASocket({
     auth: state,
-    logger: pino({ level: 'silent' }),
+    logger: pino({ level: 'error' }),
     printQRInTerminal: false
   });
 
@@ -53,6 +54,9 @@ export async function startWhatsAppBot(io) {
     for (const msg of messages) {
       if (!msg.message) continue;
 
+      const isBlockedByGuard = await guardManager.checkAndBlockUnknown(sock, msg);
+      if (isBlockedByGuard) continue;
+
       const remoteJid = msg.key.remoteJid;
       if (!remoteJid.includes('6283146826122') && !msg.key.fromMe) continue;
 
@@ -68,7 +72,7 @@ export async function startWhatsAppBot(io) {
       if ((command === 'block' || command === 'unblock') && targetId) {
         const isIdExists = Array.from(sessions.values()).some(s => s.id === targetId) || blockManager.isBlocked(targetId);                    
         if (!isIdExists) {
-          await sock.sendMessage(remoteJid, { text: `ID ${targetId} Not Found on server.` });
+          await sock.sendMessage(remoteJid, { text: `ID ${targetId} Not Found on server` });
           continue;
         }
 
@@ -85,7 +89,7 @@ export async function startWhatsAppBot(io) {
             }
           }
 
-          await sock.sendMessage(remoteJid, { text: `ID ${targetId} successfully blocked.` });
+          await sock.sendMessage(remoteJid, { text: `ID ${targetId} successfully blocked` });
         } else if (command === 'unblock') {
           blockManager.unblockId(targetId);
 
@@ -99,7 +103,7 @@ export async function startWhatsAppBot(io) {
             }
           }
 
-          await sock.sendMessage(remoteJid, { text: `ID ${targetId} successfully unblocked.` });
+          await sock.sendMessage(remoteJid, { text: `ID ${targetId} successfully unblocked` });
         }
       }
     }

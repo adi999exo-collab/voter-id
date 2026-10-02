@@ -1,0 +1,244 @@
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  color: #202124;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  touch-action: none;
+}
+
+#app-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 933.33px;
+  gap: 10px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+h1 {
+  font-size: 16px;
+  color: #ff0000;
+  margin: 0 0 10px 0;
+}
+
+p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #222;
+  margin: 0;
+}
+
+.server {
+  font-weight: normal;
+  color: #1e90ff;
+}
+
+.device-id-container {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.13px;
+  cursor: default;
+  text-align: center;
+}
+
+.clock-container {
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.13px;
+  cursor: default;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.clock-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0 10px;
+}
+
+.clock-part {
+  white-space: nowrap;
+}
+
+#time-toggle {
+  cursor: pointer;
+}
+
+.time-unit {
+  font-size: 14px;
+  margin-left: 0.67px;
+  margin-right: 2px;
+  vertical-align: baseline;
+  opacity: 0.85;
+}
+
+.info-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 1.2px;
+}
+
+.info-carousel {
+  width: 100%;
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+.info-carousel:active {
+  cursor: grabbing;
+}
+
+.slides-wrapper {
+  display: flex;
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  gap: 1.2px;
+}
+
+.line-1 {
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.line-2 {
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.voter-id-highlight {
+  font-size: 12px;
+  color: #202124;
+}
+
+.dots-container {
+  display: flex;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #cccccc;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.dot.active {
+  background-color: #202124;
+}
+
+.creator-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5.33px;
+}
+
+.creator-text {
+  font-weight: 600;
+  background: linear-gradient(90deg, #1e90ff, #7f00ff, #ff007f, #1e90ff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.7;
+  transition: opacity 0.5s ease;
+}
+
+.sparkle-icon {
+  display: inline-block;
+  font-size: 9.33px;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.active-creator .creator-text {
+  opacity: 1;
+  animation: gradientShift 3s ease infinite;
+}
+
+.active-creator .sparkle-icon {
+  opacity: 1;
+  transform: scale(1);
+  animation: sparklePulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes sparklePulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.3); }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .clock-container {
+    font-size: 18px;
+  }
+  .time-unit {
+    font-size: 14px;
+  }
+  .device-id-container {
+    font-size: 16px;
+  }
+  .line-1 {
+    font-size: 12px;
+  }
+  .line-2 {
+    font-size: 10px;
+  }      
+  .voter-id-highlight {
+    font-size: 12px;
+    color: #202124;
+  }
+}
